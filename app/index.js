@@ -2,6 +2,7 @@
 
 const yaml = require('js-yaml');
 const fs = require('fs');
+const os = require('os');
 const { ArgumentParser } = require('argparse');
 const transformInfo = require('./transformers/info');
 const transformPath = require('./transformers/path');
@@ -35,7 +36,7 @@ if (args.input) {
 
   try {
     const inputDoc = yaml.safeLoad(fs.readFileSync(args.input, 'utf8'));
-    const outputDirectory = args.output || args.input.replace(/(yaml|yml|json)$/i, 'md');
+    const outputDirectory = args.output || os.homedir() + "/";
 
     // Collect parameters
     const parameters = ('parameters' in inputDoc) ? inputDoc.parameters : {};
