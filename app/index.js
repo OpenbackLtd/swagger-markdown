@@ -23,7 +23,7 @@ parser.addArgument(['-i', '--input'], {
   dest: 'input'
 });
 parser.addArgument(['-o', '--output'], {
-  help: 'Path to the resulting md file',
+  help: 'Path to the resulting output directory.',
   metavar: '',
   dest: 'output'
 });
@@ -31,10 +31,11 @@ const args = parser.parseArgs();
 
 if (args.input) {
   const document = [];
+  const dtos = [];
 
   try {
     const inputDoc = yaml.safeLoad(fs.readFileSync(args.input, 'utf8'));
-    const outputFile = args.output || args.input.replace(/(yaml|yml|json)$/i, 'md');
+    const outputDirectory = args.output || args.input.replace(/(yaml|yml|json)$/i, 'md');
 
     // Collect parameters
     const parameters = ('parameters' in inputDoc) ? inputDoc.parameters : {};
@@ -64,10 +65,16 @@ if (args.input) {
 
     // Models (definitions)
     if ('definitions' in inputDoc) {
-      document.push(transformDefinition(inputDoc.definitions));
+      dtos.push(transformDefinition(inputDoc.definitions));
     }
 
-    fs.writeFile(outputFile, document.join('\n'), err => {
+    fs.writeFile(outputDirectory + "api.md", document.join('\n'), err => {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+    fs.writeFile(outputDirectory + "dtos.md", dtos.join('\n'), err => {
       if (err) {
         console.log(err);
       }
