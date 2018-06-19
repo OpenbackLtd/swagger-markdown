@@ -21,7 +21,7 @@ Options:
   -h, --help      Show this help message and exit.
   -v, --version   Show program's version number and exit.
   -i , --input    Path to the swagger yaml file
-  -o , --output   Path to the resulting md file
+  -o , --output   Path to the resulting output directory.
 
 ```
 
@@ -30,8 +30,7 @@ Options:
 ```javascript
 swagger-markdown -i path/to/swagger/file.yaml
 ```
-By default it will create the new file within the same directory with the same name as swagger file but with .md extension.
-So, if swagger file is placed in `project/api-doc/swagger.yaml` the new file will be created as `project/api-doc/swagger.md`
+By default it will output the markdown files to the home directory. To specify the output directory, pass the following command: `swagger-markdown -i path/to/swagger/swaggger.json -o /path/to/output/`
 
 You can also use it as a npm script in your package.json:
 
