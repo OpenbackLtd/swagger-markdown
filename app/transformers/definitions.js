@@ -13,7 +13,7 @@ const parseProperties = (name, definition) => {
   Object.keys(definition.properties).map(propName => {
     const prop = definition.properties[propName];
     const typeCell = dataTypeTransformer(new Schema(prop));
-    const descriptionCell = 'description' in prop ? prop.description : '';
+    const descriptionCell = 'description' in prop ? prop.description.replace(/(<(.*)>)/g, ' ').replace(/\r?\n|\r/g, ' ') : '';
     const requiredCell = inArray(propName, required) ? 'Yes' : 'No';
     res.push(`| ${propName} | ${typeCell} | ${descriptionCell} | ${requiredCell} |`);
   });
@@ -42,22 +42,24 @@ const parsePrimitive = (name, definition) => {
 const processDefinition = (name, definition) => {
   let res = [];
   let parsedDef = [];
-  res.push('');
-  res.push(`### ${name}  `);
-  res.push('');
-  if (definition.description) {
-    res.push(definition.description);
+  if (!name.toLowerCase().includes("elisa")){
     res.push('');
-  }
-  res.push('| Name | Type | Description | Required |');
-  res.push('| ---- | ---- | ----------- | -------- |');
+    res.push(`### ${name}  `);
+    res.push('');
+    if (definition.description) {
+      res.push(definition.description);
+      res.push('');
+    }
+    res.push('| Name | Type | Description | Required |');
+    res.push('| ---- | ---- | ----------- | -------- |');
 
-  if ('properties' in definition) {
-    parsedDef = parseProperties(name, definition);
-  } else {
-    parsedDef = parsePrimitive(name, definition);
+    if ('properties' in definition) {
+      parsedDef = parseProperties(name, definition);
+    } else {
+      parsedDef = parsePrimitive(name, definition);
+    }
+    res = res.concat(parsedDef);
   }
-  res = res.concat(parsedDef);
 
   return res.length ? res.join('\n') : null;
 };
@@ -75,7 +77,7 @@ module.exports = definitions => {
   )));
   if (res.length > 0) {
     res.unshift('---');
-    res.unshift('### Models');
+    res.unshift('## Models');
     return res.join('\n');
   }
   return null;
