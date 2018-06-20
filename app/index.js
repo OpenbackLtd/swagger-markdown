@@ -69,7 +69,7 @@ if (args.input) {
       dtos.push(transformDefinition(inputDoc.definitions));
     }
 
-    fs.writeFile(outputDirectory + "api.md", document.join('\n'), err => {
+    fs.writeFile(outputDirectory + "endpoints.md", document.join('\n'), err => {
       if (err) {
         console.log(err);
       }
