@@ -41,7 +41,7 @@ module.exports = (path, data, parameters) => {
 
         // Set summary
         if ('summary' in pathInfo) {
-          res.push(`**Summary:** ${pathInfo.summary}\n`);
+          res.push(`**Endpoint URL:** ${pathInfo.summary}\n`);
         }
 
         // Set description
