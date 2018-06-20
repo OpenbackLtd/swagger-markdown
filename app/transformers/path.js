@@ -1,4 +1,5 @@
 const inArray = require('../lib/inArray');
+const upper = require('../lib/upper');
 const transformResponses = require('./pathResponses');
 const transformParameters = require('./pathParameters');
 const security = require('./security');
@@ -9,11 +10,19 @@ const security = require('./security');
  */
 const ALLOWED_METHODS = ['get', 'post', 'put', 'patch', 'delete', 'options'];
 
+let hasBeenAdded = [];
+
 module.exports = (path, data, parameters) => {
   const res = [];
   let pathParameters = null;
 
   if (path && data) {
+    const title = upper(path.split('/')[2]);
+    if (!(inArray(title, hasBeenAdded))){
+      res.push(`## ${title}`);
+      hasBeenAdded.push(title);
+    } 
+
     // Make path as a header
     res.push(`### ${path}`);
     res.push('---');
@@ -27,7 +36,6 @@ module.exports = (path, data, parameters) => {
     Object.keys(data).map(method => {
       if (inArray(method, ALLOWED_METHODS)) {
         // Set method as a subheader
-        res.push(`##### ***${method.toUpperCase()}***`);
         const pathInfo = data[method];
 
         // Set summary
