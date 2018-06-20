@@ -36,6 +36,7 @@ module.exports = (path, data, parameters) => {
     Object.keys(data).map(method => {
       if (inArray(method, ALLOWED_METHODS)) {
         // Set method as a subheader
+        res.push(`**Method Type:** ${method.toUpperCase()}\n`);
         const pathInfo = data[method];
 
         // Set summary
