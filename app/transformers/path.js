@@ -23,8 +23,10 @@ module.exports = (path, data, parameters) => {
       hasBeenAdded.push(title);
     } 
 
+    let endpointName = path.split('/')[3];
+
     // Make path as a header
-    res.push(`### ${path}`);
+    res.push(`### ${endpointName}`);
     res.push('---');
 
     // Check if parameter for path are in the place
@@ -41,7 +43,7 @@ module.exports = (path, data, parameters) => {
 
         // Set summary
         if ('summary' in pathInfo) {
-          res.push(`**Endpoint URL:** ${pathInfo.summary}\n`);
+          res.push(`**Endpoint URL:** ${path}\n`);
         }
 
         // Set description
