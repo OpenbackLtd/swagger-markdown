@@ -27,7 +27,7 @@ const dataTypeResoler = schema => {
   if (schema.getReference()) {
     const name = schema.getReference().match(/\/([^/]*)$/i)[1];
     const link = anchor(name);
-    return `[${name}](${'/api/dtos/#' + link})`;
+    return `[${name}](${'/client/dtos/#' + link})`;
   }
   if (schema.getType() in resolver) {
     if (schema.getFormat()) {
